@@ -11,6 +11,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const logging_service_1 = require("./../../services/logging.service");
 const error_handling_service_1 = require("../../services/error-handling.service");
 const data_access_service_1 = require("./../../services/data-access.service");
+var vEnv = require('../../config/mode.json')['mode'];
+var vConfig = require('../../config/config.json')[vEnv];
 class OtherController {
     constructor() {
         logging_service_1.Logging('Initialize Other Controller');
@@ -20,6 +22,25 @@ class OtherController {
             try {
                 let payload = yield data_access_service_1.DataAccessService.executeSP('city_get', undefined);
                 pResponse.status(200).send(payload);
+            }
+            catch (err) {
+                if (err.code) {
+                    error_handling_service_1.ErrorHandlingService.throwHTTPErrorResponse(pResponse, 500, err.code, err.desc);
+                }
+                else {
+                    error_handling_service_1.ErrorHandlingService.throwHTTPErrorResponse(pResponse, 500, 4000, 'General error : ' + err);
+                }
+            }
+        });
+    }
+    getModeAndAppVersion(pRequest, pResponse) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                let result = {
+                    mode: vEnv,
+                    appVersion: "0.1.0"
+                };
+                pResponse.status(200).send(result);
             }
             catch (err) {
                 if (err.code) {
