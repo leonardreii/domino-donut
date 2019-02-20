@@ -13,5 +13,5 @@ export function Routing(router:any){
     const tokenService: Token = new Token();
     
     const otherCtrl:OtherController = new OtherController();
-    router.get('/other/citylist',otherCtrl.getCityList);
+    router.get('/app/getversion',otherCtrl.getModeAndAppVersion);
 }

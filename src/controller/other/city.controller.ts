@@ -30,7 +30,7 @@ export class OtherController{
         try {
             let result:any = {
                 mode: vEnv,
-                appVersion: "0.1.0"
+                appVersion: "1.0.0"
             };
 
             pResponse.status(200).send(result);
